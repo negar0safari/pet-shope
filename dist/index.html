@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>پت شاپ | اسلایدر محصولات حیوانات خانگی</title>
+    <meta name="description" content="اسلایدر حرفه‌ای برای نمایش محصولات پت شاپ">
+    <!-- <link rel="stylesheet" href="output.css"> -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <!-- Vazirmatn Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+  
+
+  <link rel="stylesheet" href="../my-tailwind-project/tabliq.css">
+  <link rel="stylesheet" href="output.css">
+    <!-- Tailwind CSS -->
+   <!-- <script src="https://cdn.tailwindcss.com"></script> -->
+    <script src="../my-tailwind-project/app.js" defer></script>
+    
+    <style>
+       
+        body {
+            background-color: #FDFBF7; 
+        }
+        
+      
+        .header-shadow {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        }
+        
+       
+        .logo-text {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        
+        .slide {
+            --slide-tx: 0px;
+            --slide-ty: 0vh;
+            --slide-scale: 1;
+            --slide-tz: 0px;
+            --slide-rotY: 0deg;
+            transition: transform 800ms cubic-bezier(0.4, 0, 0.2, 1);
+            transform: perspective(1000px) translate3d(var(--slide-tx), var(--slide-ty), var(--slide-tz)) rotateY(var(--slide-rotY)) scale(var(--slide-scale));
+        }
+
+        .slide[data-current] {
+            --slide-scale: 1.2;
+            --slide-tz: 0px;
+            --slide-tx: 0px;
+            --slide-rotY: 0deg;
+            pointer-events: auto;
+            z-index: 20;
+        }
+
+        .slide[data-next] {
+            --slide-tx: calc(1 * min(25vw, 300px) * 1.07);
+            --slide-rotY: -45deg;
+            z-index: 10;
+        }
+
+        .slide[data-previous] {
+            --slide-tx: calc(-1 * min(25vw, 300px) * 1.07);
+            --slide-rotY: 45deg;
+            z-index: 10;
+        }
+
+        .slide[data-current] .slide--image {
+            filter: brightness(0.85);
+        }
+
+        .slide:not([data-current]) .slide--image {
+            filter: brightness(0.4);
+        }
+
+        .slide__bg {
+            position: fixed;
+            inset: -20%;
+            background-size: cover;
+            background-position: center;
+            z-index: -1;
+            transition: opacity 800ms cubic-bezier(0.4, 0, 0.2, 1), transform 800ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .slide__bg::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.65);
+            backdrop-filter: blur(10px);
+        }
+
+        .slide__bg:not([data-current]) {
+            opacity: 0;
+        }
+
+        .slide__bg[data-previous] {
+            transform: translateX(-10%);
+        }
+
+        .slide__bg[data-next] {
+            transform: translateX(10%);
+        }
+
+        
+        .slide-info--text span {
+            display: block;
+            transition: all 800ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .slide-info[data-current] .slide-info--text span {
+            opacity: 1;
+            transform: translate3d(0, 0, 0);
+            transition-delay: 250ms;
+        }
+
+        .slide-info:not([data-current]) .slide-info--text span {
+            opacity: 0;
+            transform: translate3d(0, 100%, 0);
+            transition-delay: 0ms;
+        }
+
+       
+        .slider-btn {
+            transition: all 0.3s ease;
+        }
+
+        .slider-btn:hover {
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body class="bg-[#FDFBF7] font-sans overflow-x-hidden">
+    
+    <!-- هدر  -->
+   <header class="bg-gradient-to-br from-[#3E2723] via-[#5D4037] to-[#C68B5E] shadow-md sticky top-0 z-50 border-b border-white/10">
+    <div class="container mx-auto px-4 md:px-6 py-4">
+        <div class="flex items-center justify-between">
+            
+            <!-- لوگو -->
+            <div class="flex items-center gap-3">
+                <!-- آیکون -->
+                <div class="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
+                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5"></path>
+                    </svg>
+                </div>
+                
+                <!-- متن لوگو -->
+                <div class="text-white">
+                    <h1 class="text-xl md:text-2xl font-bold tracking-tight">پت شاپ</h1>
+                    <p class="text-xs text-amber-100/80 hidden sm:block">آرامش حیوانات خانگی</p>
+                </div>
+            </div>
+            
+            <!-- منوی دسکتاپ -->
+            <nav class="hidden md:flex items-center gap-6 lg:gap-8">
+                <a href="#" class="text-white/90 hover:text-white transition-colors duration-300 font-medium hover:bg-white/10 px-3 py-2 rounded-lg">
+                    صفحه اصلی
+                </a>
+                <a href="#" class="text-white/90 hover:text-white transition-colors duration-300 font-medium hover:bg-white/10 px-3 py-2 rounded-lg">
+                    محصولات
+                </a>
+                <a href="#" class="text-white/90 hover:text-white transition-colors duration-300 font-medium hover:bg-white/10 px-3 py-2 rounded-lg">
+                    خدمات
+                </a>
+                <a href="#" class="text-white/90 hover:text-white transition-colors duration-300 font-medium hover:bg-white/10 px-3 py-2 rounded-lg">
+                    درباره ما
+                </a>
+                <a href="#" class="text-white/90 hover:text-white transition-colors duration-300 font-medium hover:bg-white/10 px-3 py-2 rounded-lg">
+                    تماس با ما
+                </a>
+            </nav>
+            
+            <!-- دکمه‌ها -->
+            <div class="flex items-center gap-3">
+                <button id="cartBtn"  class="bg-white/20 hover:bg-white/30 text-white p-2 rounded-full transition-all duration-300 backdrop-blur-sm">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+                    </svg>
+                </button>
+                <a href="/dist/sabtnam.html"  class="bg-white text-[#5D4037] hover:bg-amber-50 px-4 py-2 rounded-lg font-semibold transition-all duration-300 shadow-md">
+                    ورود | ثبت‌نام
+                </a>
+                
+                <!-- دکمه منوی موبایل -->
+                <button id="mobileMenuBtn" class="md:hidden text-white p-2 hover:bg-white/10 rounded-lg transition-colors">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+            
+        </div>
+    </div>
+</header>
+
+    <section>
+    <!-- اسلایدر اصلی -->
+<div class="relative w-full h-[calc(100vh-80px)] flex items-center justify-center overflow-hidden">
+
+    <!-- دکمه قبلی -->
+    <button id="prevBtn"
+        class="slider-btn absolute left-4 md:left-8 z-30 opacity-70 hover:opacity-100 transition-all duration-300 bg-black/30 hover:bg-black/50 rounded-full p-2 backdrop-blur-sm">
+
+        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24"
+            fill="none" stroke="white" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <path d="m15 18-6-6 6-6" />
+        </svg>
+
+    </button>
+
+    <!-- محفظه اسلایدها -->
+    <div class="relative w-full max-w-[calc(3*min(25vw,300px))] h-auto flex items-center justify-center">
+
+        <!-- اسلایدها -->
+        <div class="relative w-full h-full flex items-center justify-center">
+
+            <!-- اسلاید 1 -->
+            <div class="slide absolute" id="slide1" data-current>
+
+                <div class="relative w-[min(25vw,300px)] aspect-[2/3]">
+
+                    <div
+                        class="absolute inset-0 overflow-hidden rounded-2xl shadow-2xl ring-2 ring-white/20">
+
+                        <img class="slide--image w-full h-full object-cover scale-125"
+                            src="../my-tailwind-project/img/s1.jpg"
+                            alt="محصولات سگ">
+
+                        <!-- نوار متن -->
+                        <div
+                            class="absolute inset-0 flex items-center justify-center z-10">
+
+                            <div
+                                class="w-full bg-black/70 backdrop-blur-sm py-4 text-center">
+
+                                <h1
+                                    class="text-white text-xl md:text-2xl font-extrabold drop-shadow-lg">
+                                    🐶 غذای سگ
+                                </h1>
+
+                                <p
+                                    class="text-white/90 text-sm md:text-base mt-1">
+                                    بهترین برندهای غذایی سگ
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+           <div class="slide__bg"
+    id="bg1"
+    data-current
+    style="background-image: url('../my-tailwind-project/img/s1.jpg');">
+</div>
+
+            <!-- اسلاید 2 -->
+            <div class="slide absolute" id="slide2" data-next>
+
+                <div class="relative w-[min(25vw,300px)] aspect-[2/3]">
+
+                    <div
+                        class="absolute inset-0 overflow-hidden rounded-2xl shadow-2xl ring-2 ring-white/20">
+
+                        <img class="slide--image w-full h-full object-cover scale-125"
+                            src="../my-tailwind-project/img/s2.jpg"
+                            alt="محصولات گربه">
+
+                        <!-- نوار متن -->
+                        <div
+                            class="absolute inset-0 flex items-center justify-center z-10">
+
+                            <div
+                                class="w-full bg-black/70 backdrop-blur-sm py-4 text-center">
+
+                                <h1
+                                    class="text-white text-xl md:text-2xl font-extrabold drop-shadow-lg">
+                                    🐱 غذای گربه
+                                </h1>
+
+                                <p
+                                    class="text-white/90 text-sm md:text-base mt-1">
+                                    بهترین برندهای مخصوص گربه
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="slide__bg"
+                id="bg2"
+                data-next
+                style="background-image: url('../my-tailwind-project/img/s2.jpg');"></div>
+
+
+            <!-- اسلاید 3 -->
+            <div class="slide absolute" id="slide3" data-previous>
+
+                <div class="relative w-[min(25vw,300px)] aspect-[2/3]">
+
+                    <div
+                        class="absolute inset-0 overflow-hidden rounded-2xl shadow-2xl ring-2 ring-white/20">
+
+                        <img class="slide--image w-full h-full object-cover scale-125"
+                            src="../my-tailwind-project/img/s4.jpg"
+                            alt="محصولات پرنده">
+
+                        <!-- نوار متن -->
+                        <div
+                            class="absolute inset-0 flex items-center justify-center z-10">
+
+                            <div
+                                class="w-full bg-black/70 backdrop-blur-sm py-4 text-center">
+
+                                <h1
+                                    class="text-white text-xl md:text-2xl font-extrabold drop-shadow-lg">
+                                    🦜 غذای پرندگان
+                                </h1>
+
+                                <p
+                                    class="text-white/90 text-sm md:text-base mt-1">
+                                    دانه‌های ممتاز پرندگان زینتی
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="slide__bg"
+                id="bg3"
+                data-previous
+                style="background-image: url('../my-tailwind-project/img/s4.jpg');"></div>
+
+        </div>
+
+        <!-- اطلاعات اسلایدها -->
+        <div class="absolute bottom-[15%] left-[10%] z-20">
+
+            <div id="info1" data-current>
+                <div class="font-['Clash_Display'] text-white"></div>
+            </div>
+
+            <div id="info2" data-next class="hidden">
+                <div class="font-['Clash_Display'] text-white"></div>
+            </div>
+
+            <div id="info3" data-previous class="hidden">
+                <div class="font-['Clash_Display'] text-white"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- دکمه بعدی -->
+    <button id="nextBtn"
+        class="slider-btn absolute right-4 md:right-8 z-30 opacity-70 hover:opacity-100 transition-all duration-300 bg-black/30 hover:bg-black/50 rounded-full p-2 backdrop-blur-sm">
+
+        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"
+            viewBox="0 0 24 24"
+            fill="none" stroke="white" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+
+            <path d="m9 18 6-6-6-6" />
+
+        </svg>
+
+    </button>
+
+</div>
+ <!-- عنوان -->
+<div class="w-full flex justify-center items-center py-6">
+
+    <div class="bg-gradient-to-r from-[#3E2723] to-[#C68B5E]
+                px-10 py-5 rounded-3xl
+                shadow-2xl border border-white/10">
+
+        <h1 class="text-white font-extrabold text-3xl md:text-4xl text-center drop-shadow-lg">
+            دسته بندی محصولات
+        </h1>
+
+    </div>
+
+</div>
+
+<!-- کانتینر اصلی -->
+<div class="max-w-6xl mx-auto px-6 py-10">
+
+    <div class="relative bg-gradient-to-br from-[#3E2723] via-[#5D4037] to-[#C68B5E]
+                rounded-3xl p-12 shadow-2xl border border-white/10
+                overflow-hidden">
+
+        <!-- glow پس‌زمینه -->
+        <div class="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_top,rgba(255,215,150,0.5),transparent_60%)]"></div>
+
+        <!-- کارت‌ها -->
+        <div class="relative z-10 flex flex-wrap justify-center gap-6">
+
+            <!-- CARD 1 -->
+            <div class="group relative bg-white/10 backdrop-blur-md rounded-[2rem] p-6 text-center text-white shadow-md overflow-hidden transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl w-36 md:w-44">
+
+                <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-500">
+                    <div class="absolute -inset-10 bg-gradient-to-r from-transparent via-yellow-300/30 to-transparent rotate-12 blur-2xl"></div>
+                </div>
+
+                <div class="relative z-10">
+                    <img src="../my-tailwind-project/img/dog.jpg"
+                        class="w-20 h-20 mx-auto mb-3 rounded-full object-cover shadow-md"
+                        alt="">
+                    <h3 class="text-base md:text-lg font-semibold mt-2">غذای سگ</h3>
+                </div>
+
+            </div>
+
+            <!-- CARD 2 -->
+            <div class="group relative bg-white/10 backdrop-blur-md rounded-[2rem] p-6 text-center text-white shadow-md overflow-hidden transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl w-36 md:w-44">
+
+                <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-500">
+                    <div class="absolute -inset-10 bg-gradient-to-r from-transparent via-yellow-300/30 to-transparent rotate-12 blur-2xl"></div>
+                </div>
+
+                <div class="relative z-10">
+                    <img src="../my-tailwind-project/img/cat.jpg"
+                        class="w-20 h-20 mx-auto mb-3 rounded-full object-cover shadow-md"
+                        alt="">
+                    <h3 class="text-base md:text-lg font-semibold mt-2">گربه</h3>
+                </div>
+
+            </div>
+
+            <!-- CARD 3 -->
+            <div class="group relative bg-white/10 backdrop-blur-md rounded-[2rem] p-6 text-center text-white shadow-md overflow-hidden transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl w-36 md:w-44">
+
+                <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-500">
+                    <div class="absolute -inset-10 bg-gradient-to-r from-transparent via-yellow-300/30 to-transparent rotate-12 blur-2xl"></div>
+                </div>
+
+                <div class="relative z-10">
+                    <img src="../my-tailwind-project/img/bird3.jpg"
+                        class="w-20 h-20 mx-auto mb-3 rounded-full object-cover shadow-md"
+                        alt="">
+                    <h3 class="text-base md:text-lg font-semibold mt-2">پرندگان</h3>
+                </div>
+
+            </div>
+
+            <!-- CARD 4 -->
+            <div class="group relative bg-white/10 backdrop-blur-md rounded-[2rem] p-6 text-center text-white shadow-md overflow-hidden transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl w-36 md:w-44">
+
+                <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-500">
+                    <div class="absolute -inset-10 bg-gradient-to-r from-transparent via-yellow-300/30 to-transparent rotate-12 blur-2xl"></div>
+                </div>
+
+                <div class="relative z-10">
+                    <img src="../my-tailwind-project/img/fish2.jpg"
+                        class="w-20 h-20 mx-auto mb-3 rounded-full object-cover shadow-md"
+                        alt="">
+                    <h3 class="text-base md:text-lg font-semibold mt-2">آبزیان</h3>
+                </div>
+
+            </div>
+
+            <!-- CARD 5 -->
+            <div class="group relative bg-white/10 backdrop-blur-md rounded-[2rem] p-6 text-center text-white shadow-md overflow-hidden transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl w-36 md:w-44">
+
+                <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-500">
+                    <div class="absolute -inset-10 bg-gradient-to-r from-transparent via-yellow-300/30 to-transparent rotate-12 blur-2xl"></div>
+                </div>
+
+                <div class="relative z-10">
+                    <img src="../my-tailwind-project/img/rabbit.jpg"
+                        class="w-20 h-20 mx-auto mb-3 rounded-full object-cover shadow-md"
+                        alt="">
+                    <h3 class="text-base md:text-lg font-semibold mt-2">جوندگان</h3>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!--خدمات-->
+<div class="max-w-6xl mx-auto px-6 py-10">
+    <div class="relative bg-gradient-to-br from-[#3E2723] via-[#5D4037] to-[#C68B5E] rounded-3xl p-8 shadow-2xl border border-white/10 overflow-hidden">
+        
+        <!-- glow پس‌زمینه -->
+        <div class="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_top,rgba(255,215,150,0.5),transparent_60%)]"></div>
+        
+        <!-- عنوان باکس -->
+        <div class="relative z-10 text-center mb-8">
+            <h2 class="text-2xl md:text-3xl font-bold text-white">✨ خدمات ویژه پت شاپ روود</h2>
+            <p class="text-white/70 text-sm md:text-base mt-2">رضایت حیوانات خانگی شما، اولویت ماست</p>
+        </div>
+        
+        <!-- آیتم‌های خدماتی -->
+        <div class="relative z-10 flex flex-wrap justify-center gap-6 md:gap-10">
+            
+            <!-- 1. ارسال فوری -->
+            <div class="flex flex-col items-center gap-2 group cursor-pointer">
+                <div class="bg-white/10 backdrop-blur-md p-4 rounded-2xl shadow-lg group-hover:bg-white/20 transition-all duration-300 group-hover:scale-110">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M22 12H2"/>
+                        <path d="M5 5H3a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h18a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/>
+                        <path d="M7 5v14"/>
+                        <path d="M17 5v14"/>
+                        <circle cx="7" cy="18" r="2"/>
+                        <circle cx="17" cy="18" r="2"/>
+                    </svg>
+                </div>
+                <span class="text-white font-semibold text-sm md:text-base">ارسال فوری</span>
+            </div>
+            
+            <!-- 2. پشتیبانی مشتری -->
+            <div class="flex flex-col items-center gap-2 group cursor-pointer">
+                <div class="bg-white/10 backdrop-blur-md p-4 rounded-2xl shadow-lg group-hover:bg-white/20 transition-all duration-300 group-hover:scale-110">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.362 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+                    </svg>
+                </div>
+                <span class="text-white font-semibold text-sm md:text-base">پشتیبانی مشتری</span>
+            </div>
+            
+            <!-- 3. درگاه پرداخت امن -->
+            <div class="flex flex-col items-center gap-2 group cursor-pointer">
+                <div class="bg-white/10 backdrop-blur-md p-4 rounded-2xl shadow-lg group-hover:bg-white/20 transition-all duration-300 group-hover:scale-110">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/>
+                        <line x1="1" y1="10" x2="23" y2="10"/>
+                        <circle cx="7" cy="15" r="1"/>
+                        <circle cx="17" cy="15" r="1"/>
+                        <line x1="7" y1="8" x2="17" y2="8"/>
+                    </svg>
+                </div>
+                <span class="text-white font-semibold text-sm md:text-base">درگاه پرداخت امن</span>
+            </div>
+            
+            <!-- 4. ضمانت سلامت کالا -->
+            <div class="flex flex-col items-center gap-2 group cursor-pointer">
+                <div class="bg-white/10 backdrop-blur-md p-4 rounded-2xl shadow-lg group-hover:bg-white/20 transition-all duration-300 group-hover:scale-110">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        <path d="m9 12 2 2 4-4"/>
+                    </svg>
+                </div>
+                <span class="text-white font-semibold text-sm md:text-base">ضمانت سلامت کالا</span>
+            </div>
+            
+        </div>
+    </div>
+</div>
+<div class="max-w-6xl mx-auto px-6 py-10">
+    <div class="relative bg-gradient-to-br from-[#3E2723] via-[#5D4037] to-[#C68B5E] rounded-3xl p-8 shadow-2xl border border-white/10 overflow-hidden">
+        
+        <!-- glow پس‌زمینه -->
+        <div class="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_top,rgba(255,215,150,0.5),transparent_60%)]"></div>
+        
+        <!-- عنوان بخش -->
+        <div class="relative z-10 text-center mb-10">
+            <h2 class="text-2xl md:text-3xl lg:text-4xl font-bold text-white">🔥 محصولات پر فروش</h2>
+            <div class="w-20 h-1 bg-amber-400 mx-auto mt-3 rounded-full"></div>
+            <p class="text-white/70 text-sm md:text-base mt-3">محبوب‌ترین محصولات پت شاپ روود</p>
+        </div>
+        
+        <!-- کارت‌های محصولات -->
+        <div class="relative z-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            
+            <!-- محصول 1 -->
+            <div class="group bg-white/10 backdrop-blur-md rounded-2xl p-4 text-center text-white shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 cursor-pointer">
+                <div class="relative">
+                    <div class="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full">
+                        شماره 1
+                    </div>
+                    <img src="../my-tailwind-project/img/dog.jpg" alt="غذای سگ" class="w-28 h-28 mx-auto mb-4 rounded-full object-cover shadow-md border-2 border-white/30 group-hover:scale-105 transition-all duration-300">
+                </div>
+                <h3 class="text-lg font-bold mb-1">غذای سگ بالغ</h3>
+                <p class="text-white/70 text-sm mb-2">برند رویال کنین</p>
+                <div class="flex items-center justify-center gap-1 mb-3">
+                    <svg class="w-4 h-4 fill-yellow-400 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                    </svg>
+                    <svg class="w-4 h-4 fill-yellow-400 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                    </svg>
+                    <svg class="w-4 h-4 fill-yellow-400 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                    </svg>
+                    <svg class="w-4 h-4 fill-yellow-400 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                    </svg>
+                    <svg class="w-4 h-4 fill-gray-400 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                    </svg>
+                    <span class="text-white/60 text-xs mr-1">(124)</span>
+                </div>
+                <div class="flex items-center justify-between mt-3 pt-3 border-t border-white/20">
+                    <span class="text-lg font-bold text-amber-300">۲۵۹,۰۰۰ تومان</span>
+                    <button class="bg-amber-500 hover:bg-amber-600 text-white px-3 py-1.5 rounded-lg text-sm font-semibold transition-all duration-300">
+                        خرید
+                    </button>
+                </div>
+            </div>
+            
+            <!-- محصول 2 -->
+            <div class="group bg-white/10 backdrop-blur-md rounded-2xl p-4 text-center text-white shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 cursor-pointer">
+                <div class="relative">
+                    <div class="absolute -top-2 -right-2 bg-amber-500 text-white text-xs font-bold px-2 py-1 rounded-full">
+                        شماره 2
+                    </div>
+                    <img src="../my-tailwind-project/img/cat.jpg" alt="غذای گربه" class="w-28 h-28 mx-auto mb-4 rounded-full object-cover shadow-md border-2 border-white/30 group-hover:scale-105 transition-all duration-300">
+                </div>
+                <h3 class="text-lg font-bold mb-1">غذای گربه سالک</h3>
+                <p class="text-white/70 text-sm mb-2">برند رویال کنین</p>
+                <div class="flex items-center justify-center gap-1 mb-3">
+                    <svg class="w-4 h-4 fill-yellow-400 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                    </svg>
+                    <svg class="w-4 h-4 fill-yellow-400 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                    </svg>
+                    <svg class="w-4 h-4 fill-yellow-400 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                    </svg>
+                    <svg class="w-4 h-4 fill-yellow-400 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                    </svg>
+                    <svg class="w-4 h-4 fill-gray-400 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                    </svg>
+                    <span class="text-white/60 text-xs mr-1">(98)</span>
+                </div>
+                <div class="flex items-center justify-between mt-3 pt-3 border-t border-white/20">
+                    <span class="text-lg font-bold text-amber-300">۲۳۹,۰۰۰ تومان</span>
+                    <button class="bg-amber-500 hover:bg-amber-600 text-white px-3 py-1.5 rounded-lg text-sm font-semibold transition-all duration-300">
+                        خرید
+                    </button>
+                </div>
+            </div>
+            
+            <!-- محصول 3 -->
+            <div class="group bg-white/10 backdrop-blur-md rounded-2xl p-4 text-center text-white shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 cursor-pointer">
+                <div class="relative">
+                    <div class="absolute -top-2 -right-2 bg-amber-500 text-white text-xs font-bold px-2 py-1 rounded-full">
+                        شماره 3
+                    </div>
+                    <img src="../my-tailwind-project/img/bird3.jpg" alt="غذای پرنده" class="w-28 h-28 mx-auto mb-4 rounded-full object-cover shadow-md border-2 border-white/30 group-hover:scale-105 transition-all duration-300">
+                </div>
+                <h3 class="text-lg font-bold mb-1">دانه پرندگان</h3>
+                <p class="text-white/70 text-sm mb-2">مخلوط ممتاز</p>
+                <div class="flex items-center justify-center gap-1 mb-3">
+                    <svg class="w-4 h-4 fill-yellow-400 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                    </svg>
+                    <svg class="w-4 h-4 fill-yellow-400 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                    </svg>
+                    <svg class="w-4 h-4 fill-yellow-400 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                    </svg>
+                    <svg class="w-4 h-4 fill-yellow-400 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                    </svg>
+                    <svg class="w-4 h-4 fill-gray-400 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                    </svg>
+                    <span class="text-white/60 text-xs mr-1">(76)</span>
+                </div>
+                <div class="flex items-center justify-between mt-3 pt-3 border-t border-white/20">
+                    <span class="text-lg font-bold text-amber-300">۷۹,۰۰۰ تومان</span>
+                    <button class="bg-amber-500 hover:bg-amber-600 text-white px-3 py-1.5 rounded-lg text-sm font-semibold transition-all duration-300">
+                        خرید
+                    </button>
+                </div>
+            </div>
+            
+            <!-- محصول 4 -->
+            <div class="group bg-white/10 backdrop-blur-md rounded-2xl p-4 text-center text-white shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 cursor-pointer">
+                <div class="relative">
+                    <div class="absolute -top-2 -right-2 bg-amber-500 text-white text-xs font-bold px-2 py-1 rounded-full">
+                        شماره 4
+                    </div>
+                    <img src="../my-tailwind-project/img/fish2.jpg" alt="غذای ماهی" class="w-28 h-28 mx-auto mb-4 rounded-full object-cover shadow-md border-2 border-white/30 group-hover:scale-105 transition-all duration-300">
+                </div>
+                <h3 class="text-lg font-bold mb-1">غذای آکواریوم</h3>
+                <p class="text-white/70 text-sm mb-2">گرانول مخصوص</p>
+                <div class="flex items-center justify-center gap-1 mb-3">
+                    <svg class="w-4 h-4 fill-yellow-400 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                    </svg>
+                    <svg class="w-4 h-4 fill-yellow-400 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                    </svg>
+                    <svg class="w-4 h-4 fill-yellow-400 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                    </svg>
+                    <svg class="w-4 h-4 fill-gray-400 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                    </svg>
+                    <svg class="w-4 h-4 fill-gray-400 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                    </svg>
+                    <span class="text-white/60 text-xs mr-1">(52)</span>
+                </div>
+                <div class="flex items-center justify-between mt-3 pt-3 border-t border-white/20">
+                    <span class="text-lg font-bold text-amber-300">۴۵,۰۰۰ تومان</span>
+                    <button class="bg-amber-500 hover:bg-amber-600 text-white px-3 py-1.5 rounded-lg text-sm font-semibold transition-all duration-300">
+                        خرید
+                    </button>
+                </div>
+            </div>
+            
+        </div>
+        
+        <!-- دکمه مشاهده همه -->
+        <div class="relative z-10 text-center mt-10">
+            <button class="bg-white/20 hover:bg-white/30 backdrop-blur-md text-white font-semibold px-8 py-3 rounded-xl transition-all duration-300 border border-white/30 hover:scale-105">
+                مشاهده همه محصولات
+                <svg class="inline-block w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                </svg>
+            </button>
+        </div>
+        
+    </div>
+</div>
+
+<section class="hero" id="heroSection">
+  <!-- background dog image (large) -->
+  <div class="parallax-container" id="parallaxBg">
+    <img class="bg-dog" src="https://images.pexels.com/photos/1805164/pexels-photo-1805164.jpeg?auto=compress&cs=tinysrgb&w=1600" alt="hero dog background" id="bgImg">
+  </div>
+  <div class="overlay"></div>
+
+  <!-- canvas for floating particles -->
+  <canvas id="particles-canvas"></canvas>
+
+  <!-- circular moving dog -->
+  <div class="hero-dog-wrapper" id="dogWrapper">
+    <img class="dog-circle" id="circularDog" src="https://images.pexels.com/photos/4588055/pexels-photo-4588055.jpeg?auto=compress&cs=tinysrgb&w=600&h=600&fit=crop" alt="cute pet shop dog">
+  </div>
+
+  <!-- text container -->
+  <div class="hero-content">
+    <div class="glass-card">
+      <div class="persian-title" id="persianTitle">فروش محصولات پت شاپ با کمترین قیمت</div>
+      <div class="subtitle" id="subtitle">غذای حیوانات، لوازم بهداشتی و اکسسوری پت</div>
+      <button class="cta-btn" id="ctaButton">مشاهده محصولات</button>
+    </div>
+  </div>
+</section>
+
+<div class="max-w-6xl mx-auto px-6 py-10">
+    <div class="relative bg-gradient-to-br from-[#3E2723] via-[#5D4037] to-[#C68B5E] rounded-3xl p-8 shadow-2xl border border-white/10 overflow-hidden">
+        
+        <!-- glow پس‌زمینه -->
+        <div class="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_top,rgba(255,215,150,0.5),transparent_60%)]"></div>
+        
+        <!-- عنوان باکس -->
+        <div class="relative z-10 text-center mb-8">
+            <h2 class="text-2xl md:text-3xl font-bold text-white">درباره ما</h2>
+            <p class="text-white/70 text-sm md:text-base mt-2">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ</p>
+        </div>
+        
+        <!-- محتوای اصلی با عکس در راست و متن در چپ -->
+        <div class="relative z-10 flex flex-col md:flex-row items-center gap-8">
+            
+            <!-- متن سمت چپ -->
+            <div class="flex-1 text-right md:text-right">
+                <h3 class="text-xl md:text-2xl font-bold text-white mb-4">لورم ایپسوم</h3>
+                <p class="text-white/80 leading-relaxed mb-6">
+                    لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از طراحان گرافیک است. 
+                    چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است، و برای شرایط فعلی تکنولوژی مورد نیاز، 
+                    و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد.
+                </p>
+                <!-- دکمه زیر متن -->
+                <button class="bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white font-semibold px-6 py-3 rounded-xl transition-all duration-300 border border-white/30 hover:scale-105">
+                    بیشتر بدانید
+                </button>
+            </div>
+            
+            <!-- عکس سمت راست -->
+            <div class="flex-shrink-0">
+                <img src="../my-tailwind-project/img/rabbit.jpg" alt="تصویر" class="rounded-2xl w-64 h-64 md:w-72 md:h-72 object-cover shadow-xl border border-white/20">
+            </div>
+        </div>
+    </div>
+</div>
+<footer class="bg-gradient-to-br from-[#3E2723] via-[#5D4037] to-[#C68B5E] text-white overflow-x-auto">
+
+  <div class="max-w-7xl mx-auto px-6 py-14">
+
+    <!-- WRAPPER (no wrap, force row) -->
+    <div class="flex flex-nowrap gap-10 min-w-[900px]">
+
+      <!-- Brand -->
+      <div class="w-1/4">
+        <h2 class="text-2xl font-bold mb-3">🐾 PetShop</h2>
+        <p class="text-white/80 text-sm leading-relaxed">
+          همه چیز برای پت‌های دوست‌داشتنی شما 🐶🐱
+          <br />کیفیت، عشق و مراقبت.
+        </p>
+      </div>
+
+      <!-- Links -->
+      <div class="w-1/4">
+        <h3 class="font-bold mb-4">لینک‌ها</h3>
+        <ul class="space-y-2 text-sm text-white/80">
+          <li><a href="#" class="hover:text-white">خانه</a></li>
+          <li><a href="#" class="hover:text-white">محصولات</a></li>
+          <li><a href="#" class="hover:text-white">خدمات</a></li>
+          <li><a href="#" class="hover:text-white">بلاگ</a></li>
+        </ul>
+      </div>
+
+      <!-- Support -->
+      <div class="w-1/4">
+        <h3 class="font-bold mb-4">پشتیبانی</h3>
+        <ul class="space-y-2 text-sm text-white/80">
+          <li>📞 0912 000 0000</li>
+          <li>✉️ support@petshop.com</li>
+          <li>📍 تهران</li>
+        </ul>
+      </div>
+
+      <!-- Newsletter -->
+      <div class="w-1/4">
+        <h3 class="font-bold mb-4">خبرنامه 🐾</h3>
+
+        <p class="text-sm text-white/80 mb-3">
+          تخفیف‌ها رو از دست نده!
+        </p>
+
+        <input
+          type="email"
+          placeholder="ایمیل شما"
+          class="w-full px-3 py-2 mb-2 rounded-lg bg-white/10 placeholder-white/60 outline-none"
+        />
+
+        <button class="w-full bg-[#C68B5E] hover:bg-[#b57a4d] py-2 rounded-lg font-bold">
+          عضویت
+        </button>
+      </div>
+
+    </div>
+
+    <!-- bottom -->
+    <div class="border-t border-white/20 mt-10 pt-6 text-center text-sm text-white/70">
+      © 2026 PetShop — همه حقوق محفوظ است 🐾
+    </div>
+
+  </div>
+</footer>
+</body>
+</html>

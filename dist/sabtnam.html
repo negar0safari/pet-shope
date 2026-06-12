@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>صفحه ثبت نام</title>
+  <!-- <script src="https://cdn.tailwindcss.com"></script> -->
+    <link rel="stylesheet" href="output.css">
+    
+</head>
+
+<body class="min-h-screen bg-gradient-to-br from-[#3E2723] via-[#5D4037] to-[#C68B5E] flex items-center justify-center p-6">
+
+  <div class="w-full max-w-md backdrop-blur-xl bg-white/10 border border-white/20 rounded-3xl shadow-2xl p-8 text-white">
+
+    <div class="text-center mb-8">
+      <h1 class="text-3xl font-bold mb-2">ثبت نام</h1>
+      <p class="text-white/70 text-sm">
+        حساب کاربری جدید بساز
+      </p>
+    </div>
+
+    <form class="space-y-5">
+
+      <div>
+        <label class="block mb-2 text-sm text-white/80">نام کامل</label>
+        <input
+          type="text"
+          placeholder="نام و نام خانوادگی"
+          class="w-full px-4 py-3 rounded-2xl bg-white/10 border border-white/20 text-white placeholder-white/40 outline-none focus:ring-2 focus:ring-[#E6B17E]"
+        />
+      </div>
+
+      <div>
+        <label class="block mb-2 text-sm text-white/80">ایمیل</label>
+        <input
+          type="email"
+          placeholder="example@email.com"
+          class="w-full px-4 py-3 rounded-2xl bg-white/10 border border-white/20 text-white placeholder-white/40 outline-none focus:ring-2 focus:ring-[#E6B17E]"
+        />
+      </div>
+
+      <div>
+        <label class="block mb-2 text-sm text-white/80">رمز عبور</label>
+        <input
+          type="password"
+          placeholder="••••••••"
+          class="w-full px-4 py-3 rounded-2xl bg-white/10 border border-white/20 text-white placeholder-white/40 outline-none focus:ring-2 focus:ring-[#E6B17E]"
+        />
+      </div>
+
+      <div>
+        <label class="block mb-2 text-sm text-white/80">تکرار رمز عبور</label>
+        <input
+          type="password"
+          placeholder="••••••••"
+          class="w-full px-4 py-3 rounded-2xl bg-white/10 border border-white/20 text-white placeholder-white/40 outline-none focus:ring-2 focus:ring-[#E6B17E]"
+        />
+      </div>
+
+      <button
+        type="submit"
+        class="w-full py-3 rounded-2xl bg-[#E6B17E] hover:bg-[#f0be8f] text-[#3E2723] font-bold transition duration-300 shadow-lg"
+      >
+        ایجاد حساب
+      </button>
+
+    </form>
+
+    <p class="text-center text-sm text-white/70 mt-6">
+      قبلاً حساب داری؟
+      <a href="#" class="text-[#FFD6A5] hover:underline">
+        ورود
+      </a>
+    </p>
+
+  </div>
+
+</body>
+</html>
