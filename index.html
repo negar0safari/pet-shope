@@ -3,875 +3,1473 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>پت شاپ | اسلایدر محصولات حیوانات خانگی</title>
-    <meta name="description" content="اسلایدر حرفه‌ای برای نمایش محصولات پت شاپ">
-    <!-- <link rel="stylesheet" href="output.css"> -->
+    <title>پت شاپ | فروشگاه تخصصی لوازم حیوانات خانگی</title>
+    <meta name="description" content="فروشگاه آنلاین ملزومات و غذای حیوانات خانگی">
+
+    <!-- فونت وزیرمتن -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
 
-  <!-- Vazirmatn Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;700;800&display=swap" rel="stylesheet">
-  
-
-  <link rel="stylesheet" href="../my-tailwind-project/tabliq.css">
-  <link rel="stylesheet" href="output.css">
-    <!-- Tailwind CSS -->
-   <!-- <script src="https://cdn.tailwindcss.com"></script> -->
-    <script src="../my-tailwind-project/app.js" defer></script>
-    
     <style>
-       
+        /* =========================================
+           1. ریست پایه و متغیرهای سراسری (Design Tokens)
+           ========================================= */
+        :root {
+            --color-bg: #FDFBF7;
+            --color-primary-dark: #3E2723;
+            --color-primary-mid: #5D4037;
+            --color-primary-light: #C68B5E;
+            --color-primary-hover: #b2764b;
+            --color-accent: #f59e0b;
+            --color-accent-hover: #d97706;
+            --color-card-bg: rgba(255, 255, 255, 0.12);
+            --color-card-border: rgba(255, 255, 255, 0.18);
+            --color-text-main: #2b2b2b;
+            --color-text-light: #ffffff;
+            --color-text-muted: rgba(255, 255, 255, 0.75);
+            --radius-sm: 8px;
+            --radius-md: 14px;
+            --radius-lg: 20px;
+            --radius-xl: 28px;
+            --radius-full: 9999px;
+            --font-family: 'Vazirmatn', -apple-system, BlinkMacSystemFont, sans-serif;
+            --shadow-card: 0 10px 30px rgba(0, 0, 0, 0.2);
+            --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
         body {
-            background-color: #FDFBF7; 
-        }
-        
-      
-        .header-shadow {
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-        }
-        
-       
-        .logo-text {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: var(--font-family);
+            background-color: var(--color-bg);
+            color: var(--color-text-main);
+            overflow-x: hidden;
+            line-height: 1.6;
+            -webkit-tap-highlight-color: transparent;
         }
 
-        
-        .slide {
-            --slide-tx: 0px;
-            --slide-ty: 0vh;
-            --slide-scale: 1;
-            --slide-tz: 0px;
-            --slide-rotY: 0deg;
-            transition: transform 800ms cubic-bezier(0.4, 0, 0.2, 1);
-            transform: perspective(1000px) translate3d(var(--slide-tx), var(--slide-ty), var(--slide-tz)) rotateY(var(--slide-rotY)) scale(var(--slide-scale));
+        a {
+            text-decoration: none;
+            color: inherit;
         }
 
-        .slide[data-current] {
-            --slide-scale: 1.2;
-            --slide-tz: 0px;
-            --slide-tx: 0px;
-            --slide-rotY: 0deg;
-            pointer-events: auto;
-            z-index: 20;
+        button {
+            font-family: inherit;
+            cursor: pointer;
+            border: none;
+            background: none;
         }
 
-        .slide[data-next] {
-            --slide-tx: calc(1 * min(25vw, 300px) * 1.07);
-            --slide-rotY: -45deg;
-            z-index: 10;
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
         }
 
-        .slide[data-previous] {
-            --slide-tx: calc(-1 * min(25vw, 300px) * 1.07);
-            --slide-rotY: 45deg;
-            z-index: 10;
+        .container {
+            width: 100%;
+            max-width: 1140px;
+            margin-inline: auto;
+            padding-inline: 1.25rem;
         }
 
-        .slide[data-current] .slide--image {
-            filter: brightness(0.85);
+        /* کارت پس‌زمینه گرادیانتی اصلی */
+        .gradient-box {
+            background: linear-gradient(135deg, var(--color-primary-dark) 0%, var(--color-primary-mid) 50%, var(--color-primary-light) 100%);
+            border-radius: var(--radius-xl);
+            padding: 1.75rem;
+            box-shadow: var(--shadow-card);
+            border: 1px solid var(--color-card-border);
+            color: var(--color-text-light);
+            position: relative;
+            overflow: hidden;
         }
 
-        .slide:not([data-current]) .slide--image {
-            filter: brightness(0.4);
+        @media (min-width: 768px) {
+            .gradient-box {
+                padding: 2.75rem;
+            }
         }
 
-        .slide__bg {
+        .section-title {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .section-title h2 {
+            font-size: 1.6rem;
+            font-weight: 800;
+        }
+
+        @media (min-width: 768px) {
+            .section-title h2 {
+                font-size: 2.1rem;
+            }
+        }
+
+        .section-title p {
+            color: var(--color-text-muted);
+            font-size: 0.9rem;
+            margin-top: 0.35rem;
+        }
+
+        /* =========================================
+           2. هدر و منوی سایت
+           ========================================= */
+        .site-header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: linear-gradient(90deg, var(--color-primary-dark) 0%, var(--color-primary-mid) 60%, var(--color-primary-light) 100%);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .nav-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-block: 0.85rem;
+        }
+
+        .brand-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: var(--color-text-light);
+        }
+
+        .logo-icon-box {
+            width: 42px;
+            height: 42px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            color: #fde68a;
+        }
+
+        .brand-logo h1 {
+            font-size: 1.25rem;
+            font-weight: 900;
+            line-height: 1.1;
+        }
+
+        .brand-logo small {
+            font-size: 0.75rem;
+            color: #fef3c7;
+            opacity: 0.8;
+            display: none;
+        }
+
+        @media (min-width: 640px) {
+            .brand-logo small {
+                display: block;
+            }
+        }
+
+        .desktop-nav {
+            display: none;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        @media (min-width: 768px) {
+            .desktop-nav {
+                display: flex;
+            }
+        }
+
+        .nav-link {
+            color: rgba(255, 255, 255, 0.85);
+            padding: 0.5rem 0.85rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: var(--transition-smooth);
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: var(--color-text-light);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.65rem;
+        }
+
+        .icon-btn {
+            position: relative;
+            background: rgba(255, 255, 255, 0.15);
+            color: var(--color-text-light);
+            width: 42px;
+            height: 42px;
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            transition: var(--transition-smooth);
+        }
+
+        .icon-btn:hover {
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        .badge-cart {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            background-color: var(--color-accent);
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 700;
+            width: 18px;
+            height: 18px;
+            border-radius: var(--radius-full);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .login-btn {
+            background: #fff;
+            color: var(--color-primary-dark);
+            padding: 0.55rem 1.1rem;
+            border-radius: var(--radius-md);
+            font-size: 0.9rem;
+            font-weight: 700;
+            transition: var(--transition-smooth);
+        }
+
+        .login-btn:hover {
+            background: #fdf3e7;
+        }
+
+        .hamburger-btn {
+            display: flex;
+        }
+
+        @media (min-width: 768px) {
+            .hamburger-btn {
+                display: none;
+            }
+        }
+
+        /* منوی موبایل (Drawer) */
+        .mobile-drawer {
             position: fixed;
-            inset: -20%;
+            inset: 0;
+            z-index: 200;
+            visibility: hidden;
+            pointer-events: none;
+            transition: visibility 0.3s;
+        }
+
+        .mobile-drawer.open {
+            visibility: visible;
+            pointer-events: auto;
+        }
+
+        .drawer-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .mobile-drawer.open .drawer-overlay {
+            opacity: 1;
+        }
+
+        .drawer-content {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 280px;
+            max-width: 80%;
+            height: 100%;
+            background: var(--color-primary-dark);
+            color: var(--color-text-light);
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transform: translateX(100%);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: -5px 0 25px rgba(0, 0, 0, 0.4);
+        }
+
+        .mobile-drawer.open .drawer-content {
+            transform: translateX(0);
+        }
+
+        .drawer-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .drawer-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+
+        .drawer-nav a {
+            padding: 0.75rem 1rem;
+            border-radius: var(--radius-sm);
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: var(--transition-smooth);
+        }
+
+        .drawer-nav a:hover, .drawer-nav a.active {
+            background: rgba(255, 255, 255, 0.12);
+            color: #fff;
+        }
+
+        /* =========================================
+           3. اسلایدر سه‌بعدی
+           ========================================= */
+        .slider-section {
+            position: relative;
+            width: 100%;
+            height: 520px;
+            background-color: #17100e;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        @media (min-width: 768px) {
+            .slider-section {
+                height: 600px;
+            }
+        }
+
+        .slide-bg {
+            position: absolute;
+            inset: 0;
             background-size: cover;
             background-position: center;
-            z-index: -1;
-            transition: opacity 800ms cubic-bezier(0.4, 0, 0.2, 1), transform 800ms cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 0;
+            transition: opacity 0.8s ease-in-out;
+            pointer-events: none;
         }
 
-        .slide__bg::before {
+        .slide-bg::after {
             content: "";
             position: absolute;
             inset: 0;
-            background: rgba(0, 0, 0, 0.65);
-            backdrop-filter: blur(10px);
+            background: linear-gradient(to bottom, rgba(25, 14, 11, 0.75), rgba(25, 14, 11, 0.9));
+            backdrop-filter: blur(12px);
         }
 
-        .slide__bg:not([data-current]) {
-            opacity: 0;
-        }
-
-        .slide__bg[data-previous] {
-            transform: translateX(-10%);
-        }
-
-        .slide__bg[data-next] {
-            transform: translateX(10%);
-        }
-
-        
-        .slide-info--text span {
-            display: block;
-            transition: all 800ms cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .slide-info[data-current] .slide-info--text span {
+        .slide-bg[data-current] {
             opacity: 1;
-            transform: translate3d(0, 0, 0);
-            transition-delay: 250ms;
         }
 
-        .slide-info:not([data-current]) .slide-info--text span {
+        .slider-stage {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .slide-item {
+            position: absolute;
+            --slide-tx: 0px;
+            --slide-scale: 1;
+            --slide-rotY: 0deg;
+            transform: perspective(1000px) translate3d(var(--slide-tx), 0, 0) rotateY(var(--slide-rotY)) scale(var(--slide-scale));
+            transition: transform 600ms cubic-bezier(0.4, 0, 0.2, 1), opacity 600ms ease;
             opacity: 0;
-            transform: translate3d(0, 100%, 0);
-            transition-delay: 0ms;
+            pointer-events: none;
         }
 
-       
-        .slider-btn {
-            transition: all 0.3s ease;
+        .slide-item[data-current] {
+            --slide-scale: 1.05;
+            --slide-tx: 0px;
+            --slide-rotY: 0deg;
+            opacity: 1;
+            z-index: 20;
+            pointer-events: auto;
         }
 
-        .slider-btn:hover {
+        .slide-item[data-next] {
+            --slide-tx: 55vw;
+            --slide-rotY: -25deg;
+            --slide-scale: 0.88;
+            opacity: 0.65;
+            z-index: 10;
+        }
+
+        .slide-item[data-previous] {
+            --slide-tx: -55vw;
+            --slide-rotY: 25deg;
+            --slide-scale: 0.88;
+            opacity: 0.65;
+            z-index: 10;
+        }
+
+        @media (min-width: 768px) {
+            .slide-item[data-current] {
+                --slide-scale: 1.15;
+            }
+            .slide-item[data-next] {
+                --slide-tx: 280px;
+                --slide-rotY: -35deg;
+            }
+            .slide-item[data-previous] {
+                --slide-tx: -280px;
+                --slide-rotY: 35deg;
+            }
+        }
+
+        .slide-card {
+            width: 220px;
+            aspect-ratio: 3 / 4;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.45);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            position: relative;
+        }
+
+        @media (min-width: 640px) {
+            .slide-card {
+                width: 270px;
+            }
+        }
+
+        .slide-card img {
+            width: 100%;
+            height: 100%;
+            object-cover: cover;
+        }
+
+        .slide-caption {
+            position: absolute;
+            inset-inline: 0;
+            bottom: 0;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.5) 70%, transparent 100%);
+            padding: 1.25rem 1rem 1rem;
+            text-align: center;
+            color: #fff;
+        }
+
+        .slide-caption h3 {
+            font-size: 1.15rem;
+            font-weight: 800;
+        }
+
+        .slide-caption p {
+            font-size: 0.8rem;
+            color: #fde68a;
+            margin-top: 0.2rem;
+        }
+
+        .slider-nav-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 30;
+            background: rgba(0, 0, 0, 0.4);
+            color: white;
+            width: 46px;
+            height: 46px;
+            border-radius: var(--radius-full);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            transition: var(--transition-smooth);
+        }
+
+        .slider-nav-btn:hover {
+            background: rgba(0, 0, 0, 0.75);
+            scale: 1.08;
+        }
+
+        .slider-nav-btn.prev {
+            left: 1rem;
+        }
+
+        .slider-nav-btn.next {
+            right: 1rem;
+        }
+
+        @media (min-width: 768px) {
+            .slider-nav-btn.prev {
+                left: 2rem;
+            }
+            .slider-nav-btn.next {
+                right: 2rem;
+            }
+        }
+
+        /* =========================================
+           4. دسته‌بندی محصولات (Categories Grid)
+           ========================================= */
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        @media (min-width: 640px) {
+            .categories-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 1.25rem;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .categories-grid {
+                grid-template-columns: repeat(5, 1fr);
+            }
+        }
+
+        .category-card {
+            background: var(--color-card-bg);
+            border: 1px solid var(--color-card-border);
+            border-radius: var(--radius-lg);
+            padding: 1.25rem 0.75rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            color: white;
+            backdrop-filter: blur(10px);
+            transition: var(--transition-smooth);
+        }
+
+        .category-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.35);
+        }
+
+        .category-avatar {
+            width: 72px;
+            height: 72px;
+            border-radius: var(--radius-full);
+            overflow: hidden;
+            margin-bottom: 0.75rem;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .category-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        .category-card:hover .category-avatar img {
             transform: scale(1.1);
+        }
+
+        .category-card span {
+            font-size: 0.95rem;
+            font-weight: 700;
+        }
+
+        /* =========================================
+           5. خدمات ویژه (Services)
+           ========================================= */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem 1rem;
+            text-align: center;
+        }
+
+        @media (min-width: 768px) {
+            .services-grid {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 1.5rem;
+            }
+        }
+
+        .service-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .service-icon {
+            width: 58px;
+            height: 58px;
+            border-radius: var(--radius-md);
+            background: var(--color-card-bg);
+            border: 1px solid var(--color-card-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fde68a;
+            backdrop-filter: blur(6px);
+            transition: var(--transition-smooth);
+        }
+
+        .service-item:hover .service-icon {
+            transform: scale(1.1);
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        .service-item span {
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        /* =========================================
+           6. پرفروش‌ترین محصولات (Products)
+           ========================================= */
+        .products-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.25rem;
+        }
+
+        @media (min-width: 640px) {
+            .products-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .products-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        .product-card {
+            background: var(--color-card-bg);
+            border: 1px solid var(--color-card-border);
+            border-radius: var(--radius-lg);
+            padding: 1.25rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            backdrop-filter: blur(10px);
+            transition: var(--transition-smooth);
+        }
+
+        .product-card:hover {
+            transform: translateY(-6px);
+            background: rgba(255, 255, 255, 0.18);
+        }
+
+        .product-img-box {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            margin-bottom: 0.85rem;
+        }
+
+        .product-img-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .badge-tag {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: #ef4444;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 800;
+            padding: 0.2rem 0.5rem;
+            border-radius: var(--radius-full);
+        }
+
+        .product-info h3 {
+            font-size: 1rem;
+            font-weight: 800;
+            margin-bottom: 0.25rem;
+        }
+
+        .product-info p {
+            font-size: 0.8rem;
+            color: var(--color-text-muted);
+            margin-bottom: 1rem;
+        }
+
+        .product-footer {
+            border-top: 1px solid var(--color-card-border);
+            padding-top: 0.85rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .price-text {
+            color: #fde68a;
+            font-weight: 900;
+            font-size: 0.95rem;
+        }
+
+        .buy-btn {
+            background-color: var(--color-accent);
+            color: white;
+            font-weight: 700;
+            font-size: 0.85rem;
+            padding: 0.45rem 0.9rem;
+            border-radius: var(--radius-sm);
+            transition: var(--transition-smooth);
+        }
+
+        .buy-btn:hover {
+            background-color: var(--color-accent-hover);
+            transform: scale(1.05);
+        }
+
+        /* =========================================
+           7. بنر میانی (Promo Banner)
+           ========================================= */
+        .promo-banner {
+            position: relative;
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+            background-color: var(--color-primary-dark);
+            color: white;
+            padding: 3rem 1.5rem;
+            text-align: center;
+            box-shadow: var(--shadow-card);
+        }
+
+        .promo-banner-bg {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.2;
+            filter: blur(2px);
+        }
+
+        .promo-content {
+            position: relative;
+            z-index: 10;
+            max-width: 650px;
+            margin-inline: auto;
+        }
+
+        .promo-tag {
+            display: inline-block;
+            background: rgba(245, 158, 11, 0.2);
+            color: #fde68a;
+            border: 1px solid rgba(245, 158, 11, 0.4);
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 0.25rem 0.75rem;
+            border-radius: var(--radius-full);
+            margin-bottom: 0.75rem;
+        }
+
+        .promo-content h2 {
+            font-size: 1.6rem;
+            font-weight: 900;
+            margin-bottom: 0.75rem;
+            line-height: 1.3;
+        }
+
+        @media (min-width: 768px) {
+            .promo-content h2 {
+                font-size: 2.2rem;
+            }
+        }
+
+        .promo-content p {
+            color: var(--color-text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .cta-btn {
+            display: inline-block;
+            background-color: var(--color-accent);
+            color: white;
+            font-weight: 800;
+            padding: 0.75rem 1.75rem;
+            border-radius: var(--radius-md);
+            transition: var(--transition-smooth);
+            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4);
+        }
+
+        .cta-btn:hover {
+            background-color: var(--color-accent-hover);
+            transform: translateY(-2px);
+        }
+
+        /* =========================================
+           8. بخش درباره ما
+           ========================================= */
+        .about-wrapper {
+            display: flex;
+            flex-direction: column-reverse;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        @media (min-width: 768px) {
+            .about-wrapper {
+                flex-direction: row;
+                gap: 3rem;
+            }
+        }
+
+        .about-text {
+            flex: 1;
+        }
+
+        .about-text h2 {
+            font-size: 1.75rem;
+            font-weight: 800;
+            margin-bottom: 0.85rem;
+        }
+
+        .about-text p {
+            color: var(--color-text-muted);
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+        }
+
+        .about-avatar {
+            width: 200px;
+            aspect-ratio: 1 / 1;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            box-shadow: var(--shadow-card);
+            flex-shrink: 0;
+        }
+
+        @media (min-width: 768px) {
+            .about-avatar {
+                width: 260px;
+            }
+        }
+
+        .about-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* =========================================
+           9. فوتر سایت (Clean Responsive Grid)
+           ========================================= */
+        .site-footer {
+            background-color: #221411;
+            color: white;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-block: 3.5rem 1.5rem;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            margin-bottom: 2.5rem;
+        }
+
+        @media (min-width: 640px) {
+            .footer-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .footer-grid {
+                grid-template-columns: 1.3fr 0.9fr 1fr 1.2fr;
+            }
+        }
+
+        .footer-col h3, .footer-col h4 {
+            font-size: 1.1rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            color: #fde68a;
+        }
+
+        .footer-col p {
+            color: var(--color-text-muted);
+            font-size: 0.875rem;
+            line-height: 1.7;
+        }
+
+        .footer-links {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+
+        .footer-links a {
+            color: var(--color-text-muted);
+            font-size: 0.875rem;
+            transition: var(--transition-smooth);
+        }
+
+        .footer-links a:hover {
+            color: white;
+            padding-right: 4px;
+        }
+
+        .newsletter-form {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+            margin-top: 0.75rem;
+        }
+
+        .newsletter-input {
+            width: 100%;
+            padding: 0.65rem 0.9rem;
+            border-radius: var(--radius-sm);
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: white;
+            font-family: inherit;
+            font-size: 0.875rem;
+            outline: none;
+        }
+
+        .newsletter-input:focus {
+            border-color: var(--color-accent);
+        }
+
+        .newsletter-btn {
+            background-color: var(--color-primary-light);
+            color: white;
+            font-weight: 700;
+            padding: 0.65rem;
+            border-radius: var(--radius-sm);
+            transition: var(--transition-smooth);
+        }
+
+        .newsletter-btn:hover {
+            background-color: var(--color-primary-hover);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            padding-top: 1.5rem;
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .my-section {
+            padding-block: 2.5rem;
+        }
+
+        @media (min-width: 768px) {
+            .my-section {
+                padding-block: 3.5rem;
+            }
         }
     </style>
 </head>
-<body class="bg-[#FDFBF7] font-sans overflow-x-hidden">
-    
-    <!-- هدر  -->
-   <header class="bg-gradient-to-br from-[#3E2723] via-[#5D4037] to-[#C68B5E] shadow-md sticky top-0 z-50 border-b border-white/10">
-    <div class="container mx-auto px-4 md:px-6 py-4">
-        <div class="flex items-center justify-between">
-            
-            <!-- لوگو -->
-            <div class="flex items-center gap-3">
-                <!-- آیکون -->
-                <div class="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
-                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5"></path>
-                    </svg>
-                </div>
+<body>
+
+    <!-- هدر سایت -->
+    <header class="site-header">
+        <div class="container">
+            <div class="nav-wrapper">
                 
-                <!-- متن لوگو -->
-                <div class="text-white">
-                    <h1 class="text-xl md:text-2xl font-bold tracking-tight">پت شاپ</h1>
-                    <p class="text-xs text-amber-100/80 hidden sm:block">آرامش حیوانات خانگی</p>
-                </div>
-            </div>
-            
-            <!-- منوی دسکتاپ -->
-            <nav class="hidden md:flex items-center gap-6 lg:gap-8">
-                <a href="#" class="text-white/90 hover:text-white transition-colors duration-300 font-medium hover:bg-white/10 px-3 py-2 rounded-lg">
-                    صفحه اصلی
-                </a>
-                <a href="#" class="text-white/90 hover:text-white transition-colors duration-300 font-medium hover:bg-white/10 px-3 py-2 rounded-lg">
-                    محصولات
-                </a>
-                <a href="#" class="text-white/90 hover:text-white transition-colors duration-300 font-medium hover:bg-white/10 px-3 py-2 rounded-lg">
-                    خدمات
-                </a>
-                <a href="#" class="text-white/90 hover:text-white transition-colors duration-300 font-medium hover:bg-white/10 px-3 py-2 rounded-lg">
-                    درباره ما
-                </a>
-                <a href="#" class="text-white/90 hover:text-white transition-colors duration-300 font-medium hover:bg-white/10 px-3 py-2 rounded-lg">
-                    تماس با ما
-                </a>
-            </nav>
-            
-            <!-- دکمه‌ها -->
-            <div class="flex items-center gap-3">
-                <button id="cartBtn"  class="bg-white/20 hover:bg-white/30 text-white p-2 rounded-full transition-all duration-300 backdrop-blur-sm">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
-                    </svg>
-                </button>
-                <a href="/dist/sabtnam.html"  class="bg-white text-[#5D4037] hover:bg-amber-50 px-4 py-2 rounded-lg font-semibold transition-all duration-300 shadow-md">
-                    ورود | ثبت‌نام
-                </a>
-                
-                <!-- دکمه منوی موبایل -->
-                <button id="mobileMenuBtn" class="md:hidden text-white p-2 hover:bg-white/10 rounded-lg transition-colors">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                    </svg>
-                </button>
-            </div>
-            
-        </div>
-    </div>
-</header>
-
-    <section>
-    <!-- اسلایدر اصلی -->
-<div class="relative w-full h-[calc(100vh-80px)] flex items-center justify-center overflow-hidden">
-
-    <!-- دکمه قبلی -->
-    <button id="prevBtn"
-        class="slider-btn absolute left-4 md:left-8 z-30 opacity-70 hover:opacity-100 transition-all duration-300 bg-black/30 hover:bg-black/50 rounded-full p-2 backdrop-blur-sm">
-
-        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24"
-            fill="none" stroke="white" stroke-width="2" stroke-linecap="round"
-            stroke-linejoin="round">
-            <path d="m15 18-6-6 6-6" />
-        </svg>
-
-    </button>
-
-    <!-- محفظه اسلایدها -->
-    <div class="relative w-full max-w-[calc(3*min(25vw,300px))] h-auto flex items-center justify-center">
-
-        <!-- اسلایدها -->
-        <div class="relative w-full h-full flex items-center justify-center">
-
-            <!-- اسلاید 1 -->
-            <div class="slide absolute" id="slide1" data-current>
-
-                <div class="relative w-[min(25vw,300px)] aspect-[2/3]">
-
-                    <div
-                        class="absolute inset-0 overflow-hidden rounded-2xl shadow-2xl ring-2 ring-white/20">
-
-                        <img class="slide--image w-full h-full object-cover scale-125"
-                            src="./img/s1.jpg"
-                            alt="محصولات سگ">
-
-                        <!-- نوار متن -->
-                        <div
-                            class="absolute inset-0 flex items-center justify-center z-10">
-
-                            <div
-                                class="w-full bg-black/70 backdrop-blur-sm py-4 text-center">
-
-                                <h1
-                                    class="text-white text-xl md:text-2xl font-extrabold drop-shadow-lg">
-                                    🐶 غذای سگ
-                                </h1>
-
-                                <p
-                                    class="text-white/90 text-sm md:text-base mt-1">
-                                    بهترین برندهای غذایی سگ
-                                </p>
-
-                            </div>
-
-                        </div>
-
+                <!-- لوگو -->
+                <a href="#" class="brand-logo">
+                    <div class="logo-icon-box">
+                        <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5"></path>
+                        </svg>
                     </div>
-
-                </div>
-
-            </div>
-           <div class="slide__bg"
-    id="bg1"
-    data-current
-    style="background-image: url('./img/s1.jpg');">
-</div>
-
-            <!-- اسلاید 2 -->
-            <div class="slide absolute" id="slide2" data-next>
-
-                <div class="relative w-[min(25vw,300px)] aspect-[2/3]">
-
-                    <div
-                        class="absolute inset-0 overflow-hidden rounded-2xl shadow-2xl ring-2 ring-white/20">
-
-                        <img class="slide--image w-full h-full object-cover scale-125"
-                            src="./img/s2.jpg"
-                            alt="محصولات گربه">
-
-                      
-                        <div
-                            class="absolute inset-0 flex items-center justify-center z-10">
-
-                            <div
-                                class="w-full bg-black/70 backdrop-blur-sm py-4 text-center">
-
-                                <h1
-                                    class="text-white text-xl md:text-2xl font-extrabold drop-shadow-lg">
-                                    🐱 غذای گربه
-                                </h1>
-
-                                <p
-                                    class="text-white/90 text-sm md:text-base mt-1">
-                                    بهترین برندهای مخصوص گربه
-                                </p>
-
-                            </div>
-
-                        </div>
-
+                    <div>
+                        <h1>پت شاپ</h1>
+                        <small>مرکز تخصصی حیوانات خانگی</small>
                     </div>
+                </a>
 
-                </div>
+                <!-- منوی دسکتاپ -->
+                <nav class="desktop-nav">
+                    <a href="#" class="nav-link active">صفحه اصلی</a>
+                    <a href="#" class="nav-link">محصولات</a>
+                    <a href="#" class="nav-link">خدمات</a>
+                    <a href="#" class="nav-link">درباره ما</a>
+                    <a href="#" class="nav-link">تماس با ما</a>
+                </nav>
 
-            </div>
+                <!-- اکشن‌ها -->
+                <div class="header-actions">
+                    <button class="icon-btn" aria-label="سبد خرید">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+                        </svg>
+                        <span class="badge-cart">۲</span>
+                    </button>
+                    
+                    <a href="#" class="login-btn">ورود / ثبت‌نام</a>
 
-            <div class="slide__bg"
-                id="bg2"
-                data-next
-                style="background-image: url('./img/s2.jpg');"></div>
-
-
-            <!-- اسلاید 3 -->
-            <div class="slide absolute" id="slide3" data-previous>
-
-                <div class="relative w-[min(25vw,300px)] aspect-[2/3]">
-
-                    <div
-                        class="absolute inset-0 overflow-hidden rounded-2xl shadow-2xl ring-2 ring-white/20">
-
-                        <img class="slide--image w-full h-full object-cover scale-125"
-                            src="./img/s4.jpg"
-                            alt="محصولات پرنده">
-
-                        <!-- نوار متن -->
-                        <div
-                            class="absolute inset-0 flex items-center justify-center z-10">
-
-                            <div
-                                class="w-full bg-black/70 backdrop-blur-sm py-4 text-center">
-
-                                <h1
-                                    class="text-white text-xl md:text-2xl font-extrabold drop-shadow-lg">
-                                    🦜 غذای پرندگان
-                                </h1>
-
-                                <p
-                                    class="text-white/90 text-sm md:text-base mt-1">
-                                    دانه‌های ممتاز پرندگان زینتی
-                                </p>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-            <div class="slide__bg"
-                id="bg3"
-                data-previous
-                style="background-image: url('./img/s4.jpg');"></div>
-
-        </div>
-
-        <!-- اطلاعات اسلایدها -->
-        <div class="absolute bottom-[15%] left-[10%] z-20">
-
-            <div id="info1" data-current>
-                <div class="font-['Clash_Display'] text-white"></div>
-            </div>
-
-            <div id="info2" data-next class="hidden">
-                <div class="font-['Clash_Display'] text-white"></div>
-            </div>
-
-            <div id="info3" data-previous class="hidden">
-                <div class="font-['Clash_Display'] text-white"></div>
-            </div>
-
-        </div>
-
-    </div>
-
-    <!-- دکمه بعدی -->
-    <button id="nextBtn"
-        class="slider-btn absolute right-4 md:right-8 z-30 opacity-70 hover:opacity-100 transition-all duration-300 bg-black/30 hover:bg-black/50 rounded-full p-2 backdrop-blur-sm">
-
-        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"
-            viewBox="0 0 24 24"
-            fill="none" stroke="white" stroke-width="2"
-            stroke-linecap="round" stroke-linejoin="round">
-
-            <path d="m9 18 6-6-6-6" />
-
-        </svg>
-
-    </button>
-
-</div>
- <!-- عنوان -->
-<div class="w-full flex justify-center items-center py-6">
-
-    <div class="bg-gradient-to-r from-[#3E2723] to-[#C68B5E]
-                px-10 py-5 rounded-3xl
-                shadow-2xl border border-white/10">
-
-        <h1 class="text-white font-extrabold text-3xl md:text-4xl text-center drop-shadow-lg">
-            دسته بندی محصولات
-        </h1>
-
-    </div>
-
-</div>
-
-<!-- کانتینر اصلی -->
-<div class="max-w-6xl mx-auto px-6 py-10">
-
-    <div class="relative bg-gradient-to-br from-[#3E2723] via-[#5D4037] to-[#C68B5E]
-                rounded-3xl p-12 shadow-2xl border border-white/10
-                overflow-hidden">
-
-        <!-- glow پس‌زمینه -->
-        <div class="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_top,rgba(255,215,150,0.5),transparent_60%)]"></div>
-
-        <!-- کارت‌ها -->
-        <div class="relative z-10 flex flex-wrap justify-center gap-6">
-
-            <!-- CARD 1 -->
-            <div class="group relative bg-white/10 backdrop-blur-md rounded-[2rem] p-6 text-center text-white shadow-md overflow-hidden transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl w-36 md:w-44">
-
-                <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-500">
-                    <div class="absolute -inset-10 bg-gradient-to-r from-transparent via-yellow-300/30 to-transparent rotate-12 blur-2xl"></div>
-                </div>
-
-                <div class="relative z-10">
-                    <img src="./img/dog.jpg"
-                        class="w-20 h-20 mx-auto mb-3 rounded-full object-cover shadow-md"
-                        alt="">
-                    <h3 class="text-base md:text-lg font-semibold mt-2">غذای سگ</h3>
-                </div>
-
-            </div>
-
-            <!-- CARD 2 -->
-            <div class="group relative bg-white/10 backdrop-blur-md rounded-[2rem] p-6 text-center text-white shadow-md overflow-hidden transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl w-36 md:w-44">
-
-                <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-500">
-                    <div class="absolute -inset-10 bg-gradient-to-r from-transparent via-yellow-300/30 to-transparent rotate-12 blur-2xl"></div>
-                </div>
-
-                <div class="relative z-10">
-                    <img src="./img/cat.jpg"
-                        class="w-20 h-20 mx-auto mb-3 rounded-full object-cover shadow-md"
-                        alt="">
-                    <h3 class="text-base md:text-lg font-semibold mt-2">گربه</h3>
-                </div>
-
-            </div>
-
-            <!-- CARD 3 -->
-            <div class="group relative bg-white/10 backdrop-blur-md rounded-[2rem] p-6 text-center text-white shadow-md overflow-hidden transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl w-36 md:w-44">
-
-                <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-500">
-                    <div class="absolute -inset-10 bg-gradient-to-r from-transparent via-yellow-300/30 to-transparent rotate-12 blur-2xl"></div>
-                </div>
-
-                <div class="relative z-10">
-                    <img src="./img/bird3.jpg"
-                        class="w-20 h-20 mx-auto mb-3 rounded-full object-cover shadow-md"
-                        alt="">
-                    <h3 class="text-base md:text-lg font-semibold mt-2">پرندگان</h3>
-                </div>
-
-            </div>
-
-            <!-- CARD 4 -->
-            <div class="group relative bg-white/10 backdrop-blur-md rounded-[2rem] p-6 text-center text-white shadow-md overflow-hidden transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl w-36 md:w-44">
-
-                <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-500">
-                    <div class="absolute -inset-10 bg-gradient-to-r from-transparent via-yellow-300/30 to-transparent rotate-12 blur-2xl"></div>
-                </div>
-
-                <div class="relative z-10">
-                    <img src="./img/fish2.jpg"
-                        class="w-20 h-20 mx-auto mb-3 rounded-full object-cover shadow-md"
-                        alt="">
-                    <h3 class="text-base md:text-lg font-semibold mt-2">آبزیان</h3>
-                </div>
-
-            </div>
-
-            <!-- CARD 5 -->
-            <div class="group relative bg-white/10 backdrop-blur-md rounded-[2rem] p-6 text-center text-white shadow-md overflow-hidden transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl w-36 md:w-44">
-
-                <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-500">
-                    <div class="absolute -inset-10 bg-gradient-to-r from-transparent via-yellow-300/30 to-transparent rotate-12 blur-2xl"></div>
-                </div>
-
-                <div class="relative z-10">
-                    <img src="./img/rabbit.jpg"
-                        class="w-20 h-20 mx-auto mb-3 rounded-full object-cover shadow-md"
-                        alt="">
-                    <h3 class="text-base md:text-lg font-semibold mt-2">جوندگان</h3>
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</div>
-
-<!--خدمات-->
-<div class="max-w-6xl mx-auto px-6 py-10">
-    <div class="relative bg-gradient-to-br from-[#3E2723] via-[#5D4037] to-[#C68B5E] rounded-3xl p-8 shadow-2xl border border-white/10 overflow-hidden">
-        
-        <!-- glow پس‌زمینه -->
-        <div class="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_top,rgba(255,215,150,0.5),transparent_60%)]"></div>
-        
-        <!-- عنوان باکس -->
-        <div class="relative z-10 text-center mb-8">
-            <h2 class="text-2xl md:text-3xl font-bold text-white">✨ خدمات ویژه پت شاپ روود</h2>
-            <p class="text-white/70 text-sm md:text-base mt-2">رضایت حیوانات خانگی شما، اولویت ماست</p>
-        </div>
-        
-        <!-- آیتم‌های خدماتی -->
-        <div class="relative z-10 flex flex-wrap justify-center gap-6 md:gap-10">
-            
-            <!-- 1. ارسال فوری -->
-            <div class="flex flex-col items-center gap-2 group cursor-pointer">
-                <div class="bg-white/10 backdrop-blur-md p-4 rounded-2xl shadow-lg group-hover:bg-white/20 transition-all duration-300 group-hover:scale-110">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M22 12H2"/>
-                        <path d="M5 5H3a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h18a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/>
-                        <path d="M7 5v14"/>
-                        <path d="M17 5v14"/>
-                        <circle cx="7" cy="18" r="2"/>
-                        <circle cx="17" cy="18" r="2"/>
-                    </svg>
-                </div>
-                <span class="text-white font-semibold text-sm md:text-base">ارسال فوری</span>
-            </div>
-            
-            <!-- 2. پشتیبانی مشتری -->
-            <div class="flex flex-col items-center gap-2 group cursor-pointer">
-                <div class="bg-white/10 backdrop-blur-md p-4 rounded-2xl shadow-lg group-hover:bg-white/20 transition-all duration-300 group-hover:scale-110">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.362 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
-                    </svg>
-                </div>
-                <span class="text-white font-semibold text-sm md:text-base">پشتیبانی مشتری</span>
-            </div>
-            
-            <!-- 3. درگاه پرداخت امن -->
-            <div class="flex flex-col items-center gap-2 group cursor-pointer">
-                <div class="bg-white/10 backdrop-blur-md p-4 rounded-2xl shadow-lg group-hover:bg-white/20 transition-all duration-300 group-hover:scale-110">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                        <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/>
-                        <line x1="1" y1="10" x2="23" y2="10"/>
-                        <circle cx="7" cy="15" r="1"/>
-                        <circle cx="17" cy="15" r="1"/>
-                        <line x1="7" y1="8" x2="17" y2="8"/>
-                    </svg>
-                </div>
-                <span class="text-white font-semibold text-sm md:text-base">درگاه پرداخت امن</span>
-            </div>
-            
-            <!-- 4. ضمانت سلامت کالا -->
-            <div class="flex flex-col items-center gap-2 group cursor-pointer">
-                <div class="bg-white/10 backdrop-blur-md p-4 rounded-2xl shadow-lg group-hover:bg-white/20 transition-all duration-300 group-hover:scale-110">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-                        <path d="m9 12 2 2 4-4"/>
-                    </svg>
-                </div>
-                <span class="text-white font-semibold text-sm md:text-base">ضمانت سلامت کالا</span>
-            </div>
-            
-        </div>
-    </div>
-</div>
-<div class="max-w-6xl mx-auto px-6 py-10">
-    <div class="relative bg-gradient-to-br from-[#3E2723] via-[#5D4037] to-[#C68B5E] rounded-3xl p-8 shadow-2xl border border-white/10 overflow-hidden">
-        
-        <!-- glow پس‌زمینه -->
-        <div class="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_top,rgba(255,215,150,0.5),transparent_60%)]"></div>
-        
-        <!-- عنوان بخش -->
-        <div class="relative z-10 text-center mb-10">
-            <h2 class="text-2xl md:text-3xl lg:text-4xl font-bold text-white">🔥 محصولات پر فروش</h2>
-            <div class="w-20 h-1 bg-amber-400 mx-auto mt-3 rounded-full"></div>
-            <p class="text-white/70 text-sm md:text-base mt-3">محبوب‌ترین محصولات پت شاپ روود</p>
-        </div>
-        
-        <!-- کارت‌های محصولات -->
-        <div class="relative z-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            
-            <!-- محصول 1 -->
-            <div class="group bg-white/10 backdrop-blur-md rounded-2xl p-4 text-center text-white shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 cursor-pointer">
-                <div class="relative">
-                    <div class="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full">
-                        شماره 1
-                    </div>
-                    <img src="./img/dog.jpg" alt="غذای سگ" class="w-28 h-28 mx-auto mb-4 rounded-full object-cover shadow-md border-2 border-white/30 group-hover:scale-105 transition-all duration-300">
-                </div>
-                <h3 class="text-lg font-bold mb-1">غذای سگ بالغ</h3>
-                <p class="text-white/70 text-sm mb-2">برند رویال کنین</p>
-                <div class="flex items-center justify-center gap-1 mb-3">
-                    <svg class="w-4 h-4 fill-yellow-400 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-                    </svg>
-                    <svg class="w-4 h-4 fill-yellow-400 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-                    </svg>
-                    <svg class="w-4 h-4 fill-yellow-400 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-                    </svg>
-                    <svg class="w-4 h-4 fill-yellow-400 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-                    </svg>
-                    <svg class="w-4 h-4 fill-gray-400 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-                    </svg>
-                    <span class="text-white/60 text-xs mr-1">(124)</span>
-                </div>
-                <div class="flex items-center justify-between mt-3 pt-3 border-t border-white/20">
-                    <span class="text-lg font-bold text-amber-300">۲۵۹,۰۰۰ تومان</span>
-                    <button class="bg-amber-500 hover:bg-amber-600 text-white px-3 py-1.5 rounded-lg text-sm font-semibold transition-all duration-300">
-                        خرید
+                    <button id="mobileMenuBtn" class="icon-btn hamburger-btn" aria-label="منوی موبایل">
+                        <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
                     </button>
                 </div>
+
             </div>
-            
-            <!-- محصول 2 -->
-            <div class="group bg-white/10 backdrop-blur-md rounded-2xl p-4 text-center text-white shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 cursor-pointer">
-                <div class="relative">
-                    <div class="absolute -top-2 -right-2 bg-amber-500 text-white text-xs font-bold px-2 py-1 rounded-full">
-                        شماره 2
-                    </div>
-                    <img src="./img/cat.jpg" alt="غذای گربه" class="w-28 h-28 mx-auto mb-4 rounded-full object-cover shadow-md border-2 border-white/30 group-hover:scale-105 transition-all duration-300">
-                </div>
-                <h3 class="text-lg font-bold mb-1">غذای گربه سالک</h3>
-                <p class="text-white/70 text-sm mb-2">برند رویال کنین</p>
-                <div class="flex items-center justify-center gap-1 mb-3">
-                    <svg class="w-4 h-4 fill-yellow-400 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-                    </svg>
-                    <svg class="w-4 h-4 fill-yellow-400 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-                    </svg>
-                    <svg class="w-4 h-4 fill-yellow-400 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-                    </svg>
-                    <svg class="w-4 h-4 fill-yellow-400 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-                    </svg>
-                    <svg class="w-4 h-4 fill-gray-400 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-                    </svg>
-                    <span class="text-white/60 text-xs mr-1">(98)</span>
-                </div>
-                <div class="flex items-center justify-between mt-3 pt-3 border-t border-white/20">
-                    <span class="text-lg font-bold text-amber-300">۲۳۹,۰۰۰ تومان</span>
-                    <button class="bg-amber-500 hover:bg-amber-600 text-white px-3 py-1.5 rounded-lg text-sm font-semibold transition-all duration-300">
-                        خرید
+        </div>
+    </header>
+
+    <!-- منوی کناری کشویی موبایل -->
+    <div id="mobileDrawer" class="mobile-drawer">
+        <div id="drawerOverlay" class="drawer-overlay"></div>
+        <div class="drawer-content">
+            <div>
+                <div class="drawer-header">
+                    <h3>منوی پت شاپ</h3>
+                    <button id="closeDrawerBtn" aria-label="بستن منو" style="color: white;">
+                        <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
                     </button>
                 </div>
+                <nav class="drawer-nav">
+                    <a href="#" class="active">صفحه اصلی</a>
+                    <a href="#">محصولات</a>
+                    <a href="#">خدمات</a>
+                    <a href="#">درباره ما</a>
+                    <a href="#">تماس با ما</a>
+                </nav>
             </div>
-            
-            <!-- محصول 3 -->
-            <div class="group bg-white/10 backdrop-blur-md rounded-2xl p-4 text-center text-white shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 cursor-pointer">
-                <div class="relative">
-                    <div class="absolute -top-2 -right-2 bg-amber-500 text-white text-xs font-bold px-2 py-1 rounded-full">
-                        شماره 3
-                    </div>
-                    <img src="./img/bird2.jpg" alt="غذای پرنده" class="w-28 h-28 mx-auto mb-4 rounded-full object-cover shadow-md border-2 border-white/30 group-hover:scale-105 transition-all duration-300">
-                </div>
-                <h3 class="text-lg font-bold mb-1">دانه پرندگان</h3>
-                <p class="text-white/70 text-sm mb-2">مخلوط ممتاز</p>
-                <div class="flex items-center justify-center gap-1 mb-3">
-                    <svg class="w-4 h-4 fill-yellow-400 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-                    </svg>
-                    <svg class="w-4 h-4 fill-yellow-400 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-                    </svg>
-                    <svg class="w-4 h-4 fill-yellow-400 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-                    </svg>
-                    <svg class="w-4 h-4 fill-yellow-400 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-                    </svg>
-                    <svg class="w-4 h-4 fill-gray-400 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-                    </svg>
-                    <span class="text-white/60 text-xs mr-1">(76)</span>
-                </div>
-                <div class="flex items-center justify-between mt-3 pt-3 border-t border-white/20">
-                    <span class="text-lg font-bold text-amber-300">۷۹,۰۰۰ تومان</span>
-                    <button class="bg-amber-500 hover:bg-amber-600 text-white px-3 py-1.5 rounded-lg text-sm font-semibold transition-all duration-300">
-                        خرید
-                    </button>
-                </div>
-            </div>
-            
-            <!-- محصول 4 -->
-            <div class="group bg-white/10 backdrop-blur-md rounded-2xl p-4 text-center text-white shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 cursor-pointer">
-                <div class="relative">
-                    <div class="absolute -top-2 -right-2 bg-amber-500 text-white text-xs font-bold px-2 py-1 rounded-full">
-                        شماره 4
-                    </div>
-                    <img src="/img/fish2.jpg" alt="غذای ماهی" class="w-28 h-28 mx-auto mb-4 rounded-full object-cover shadow-md border-2 border-white/30 group-hover:scale-105 transition-all duration-300">
-                </div>
-                <h3 class="text-lg font-bold mb-1">غذای آکواریوم</h3>
-                <p class="text-white/70 text-sm mb-2">گرانول مخصوص</p>
-                <div class="flex items-center justify-center gap-1 mb-3">
-                    <svg class="w-4 h-4 fill-yellow-400 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-                    </svg>
-                    <svg class="w-4 h-4 fill-yellow-400 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-                    </svg>
-                    <svg class="w-4 h-4 fill-yellow-400 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-                    </svg>
-                    <svg class="w-4 h-4 fill-gray-400 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-                    </svg>
-                    <svg class="w-4 h-4 fill-gray-400 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-                    </svg>
-                    <span class="text-white/60 text-xs mr-1">(52)</span>
-                </div>
-                <div class="flex items-center justify-between mt-3 pt-3 border-t border-white/20">
-                    <span class="text-lg font-bold text-amber-300">۴۵,۰۰۰ تومان</span>
-                    <button class="bg-amber-500 hover:bg-amber-600 text-white px-3 py-1.5 rounded-lg text-sm font-semibold transition-all duration-300">
-                        خرید
-                    </button>
-                </div>
-            </div>
-            
-        </div>
-        
-        <!-- دکمه مشاهده همه -->
-        <div class="relative z-10 text-center mt-10">
-            <button class="bg-white/20 hover:bg-white/30 backdrop-blur-md text-white font-semibold px-8 py-3 rounded-xl transition-all duration-300 border border-white/30 hover:scale-105">
-                مشاهده همه محصولات
-                <svg class="inline-block w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                </svg>
-            </button>
-        </div>
-        
-    </div>
-</div>
-
-<section class="hero" id="heroSection">
-  <!-- background dog image (large) -->
-  <div class="parallax-container" id="parallaxBg">
-    <img class="bg-dog" src="./img/dog.jpg" alt="hero dog background" id="bgImg">
-  </div>
-  <div class="overlay"></div>
-
-  <!-- canvas for floating particles -->
-  <canvas id="particles-canvas"></canvas>
-
-  <!-- circular moving dog -->
-  <div class="hero-dog-wrapper" id="dogWrapper">
-    <img class="dog-circle" id="circularDog" src="https://images.pexels.com/photos/4588055/pexels-photo-4588055.jpeg?auto=compress&cs=tinysrgb&w=600&h=600&fit=crop" alt="cute pet shop dog">
-  </div>
-
-  <!-- text container -->
-  <div class="hero-content">
-    <div class="glass-card">
-      <div class="persian-title" id="persianTitle">فروش محصولات پت شاپ با کمترین قیمت</div>
-      <div class="subtitle" id="subtitle">غذای حیوانات، لوازم بهداشتی و اکسسوری پت</div>
-      <button class="cta-btn" id="ctaButton">مشاهده محصولات</button>
-    </div>
-  </div>
-</section>
-
-<div class="max-w-6xl mx-auto px-6 py-10">
-    <div class="relative bg-gradient-to-br from-[#3E2723] via-[#5D4037] to-[#C68B5E] rounded-3xl p-8 shadow-2xl border border-white/10 overflow-hidden">
-        
-        <!-- glow پس‌زمینه -->
-        <div class="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_top,rgba(255,215,150,0.5),transparent_60%)]"></div>
-        
-        <!-- عنوان باکس -->
-        <div class="relative z-10 text-center mb-8">
-            <h2 class="text-2xl md:text-3xl font-bold text-white">درباره ما</h2>
-            <p class="text-white/70 text-sm md:text-base mt-2">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ</p>
-        </div>
-        
-        <!-- محتوای اصلی با عکس در راست و متن در چپ -->
-        <div class="relative z-10 flex flex-col md:flex-row items-center gap-8">
-            
-            <!-- متن سمت چپ -->
-            <div class="flex-1 text-right md:text-right">
-                <h3 class="text-xl md:text-2xl font-bold text-white mb-4">لورم ایپسوم</h3>
-                <p class="text-white/80 leading-relaxed mb-6">
-                    لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از طراحان گرافیک است. 
-                    چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است، و برای شرایط فعلی تکنولوژی مورد نیاز، 
-                    و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد.
-                </p>
-                <!-- دکمه زیر متن -->
-                <button class="bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white font-semibold px-6 py-3 rounded-xl transition-all duration-300 border border-white/30 hover:scale-105">
-                    بیشتر بدانید
-                </button>
-            </div>
-            
-            <!-- عکس سمت راست -->
-            <div class="flex-shrink-0">
-                <img src="./img/rabbit.jpg" alt="تصویر" class="rounded-2xl w-64 h-64 md:w-72 md:h-72 object-cover shadow-xl border border-white/20">
+            <div style="font-size: 0.8rem; opacity: 0.7; text-align: center;">
+                شماره پشتیبانی: ۰۹۱۲۰۰۰۰۰۰۰
             </div>
         </div>
     </div>
-</div>
-<footer class="bg-gradient-to-br from-[#3E2723] via-[#5D4037] to-[#C68B5E] text-white overflow-x-auto">
 
-  <div class="max-w-7xl mx-auto px-6 py-14">
+    <!-- اسلایدر سه‌بعدی محصولات -->
+    <section class="slider-section">
+        
+        <!-- تصاویر پس‌زمینه محو -->
+        <div class="slide-bg" id="bg1" data-current style="background-image: url('./img/s1.jpg');"></div>
+        <div class="slide-bg" id="bg2" data-next style="background-image: url('./img/s2.jpg');"></div>
+        <div class="slide-bg" id="bg3" data-previous style="background-image: url('./img/s4.jpg');"></div>
 
-    <!-- WRAPPER (no wrap, force row) -->
-    <div class="flex flex-nowrap gap-10 min-w-[900px]">
-
-      <!-- Brand -->
-      <div class="w-1/4">
-        <h2 class="text-2xl font-bold mb-3">🐾 PetShop</h2>
-        <p class="text-white/80 text-sm leading-relaxed">
-          همه چیز برای پت‌های دوست‌داشتنی شما 🐶🐱
-          <br />کیفیت، عشق و مراقبت.
-        </p>
-      </div>
-
-      <!-- Links -->
-      <div class="w-1/4">
-        <h3 class="font-bold mb-4">لینک‌ها</h3>
-        <ul class="space-y-2 text-sm text-white/80">
-          <li><a href="#" class="hover:text-white">خانه</a></li>
-          <li><a href="#" class="hover:text-white">محصولات</a></li>
-          <li><a href="#" class="hover:text-white">خدمات</a></li>
-          <li><a href="#" class="hover:text-white">بلاگ</a></li>
-        </ul>
-      </div>
-
-      <!-- Support -->
-      <div class="w-1/4">
-        <h3 class="font-bold mb-4">پشتیبانی</h3>
-        <ul class="space-y-2 text-sm text-white/80">
-          <li>📞 0912 000 0000</li>
-          <li>✉️ support@petshop.com</li>
-          <li>📍 تهران</li>
-        </ul>
-      </div>
-
-      <!-- Newsletter -->
-      <div class="w-1/4">
-        <h3 class="font-bold mb-4">خبرنامه 🐾</h3>
-
-        <p class="text-sm text-white/80 mb-3">
-          تخفیف‌ها رو از دست نده!
-        </p>
-
-        <input
-          type="email"
-          placeholder="ایمیل شما"
-          class="w-full px-3 py-2 mb-2 rounded-lg bg-white/10 placeholder-white/60 outline-none"
-        />
-
-        <button class="w-full bg-[#C68B5E] hover:bg-[#b57a4d] py-2 rounded-lg font-bold">
-          عضویت
+        <!-- دکمه ناوبری قبل -->
+        <button id="prevBtn" class="slider-nav-btn prev" aria-label="اسلاید قبلی">
+            <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+            </svg>
         </button>
-      </div>
 
-    </div>
+        <!-- استیج اسلایدها -->
+        <div class="slider-stage">
+            
+            <!-- اسلاید ۱ -->
+            <div class="slide-item" id="slide1" data-current>
+                <div class="slide-card">
+                    <img src="./img/s1.jpg" alt="محصولات سگ">
+                    <div class="slide-caption">
+                        <h3>🐶 غذای سگ بالغ</h3>
+                        <p>بهترین برندها با هضم فوق‌العاده</p>
+                    </div>
+                </div>
+            </div>
 
-    <!-- bottom -->
-    <div class="border-t border-white/20 mt-10 pt-6 text-center text-sm text-white/70">
-      © 2026 PetShop — همه حقوق محفوظ است 🐾
-    </div>
+            <!-- اسلاید ۲ -->
+            <div class="slide-item" id="slide2" data-next>
+                <div class="slide-card">
+                    <img src="./img/s2.jpg" alt="محصولات گربه">
+                    <div class="slide-caption">
+                        <h3>🐱 غذای خشک گربه</h3>
+                        <p>تأمین پروتئین و سلامت مو و پوست</p>
+                    </div>
+                </div>
+            </div>
 
-  </div>
-</footer>
+            <!-- اسلاید ۳ -->
+            <div class="slide-item" id="slide3" data-previous>
+                <div class="slide-card">
+                    <img src="./img/s4.jpg" alt="محصولات پرندگان">
+                    <div class="slide-caption">
+                        <h3>🦜 دانه ممتاز طوطی‌سانان</h3>
+                        <p>فرمول طبیعی و بدون مواد نگهدارنده</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- دکمه ناوبری بعد -->
+        <button id="nextBtn" class="slider-nav-btn next" aria-label="اسلاید بعدی">
+            <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+            </svg>
+        </button>
+
+    </section>
+
+    <!-- بخش دسته‌بندی‌ها -->
+    <section class="container my-section">
+        <div class="gradient-box">
+            <div class="section-title">
+                <h2>دسته‌بندی محصولات</h2>
+                <p>انتخاب دسته‌بندی بر اساس نوع دوست خانگی شما</p>
+            </div>
+
+            <div class="categories-grid">
+                
+                <a href="#" class="category-card">
+                    <div class="category-avatar">
+                        <img src="./img/dog.jpg" alt="سگ">
+                    </div>
+                    <span>سگ‌ها</span>
+                </a>
+
+                <a href="#" class="category-card">
+                    <div class="category-avatar">
+                        <img src="./img/cat.jpg" alt="گربه">
+                    </div>
+                    <span>گربه‌ها</span>
+                </a>
+
+                <a href="#" class="category-card">
+                    <div class="category-avatar">
+                        <img src="./img/bird3.jpg" alt="پرندگان">
+                    </div>
+                    <span>پرندگان</span>
+                </a>
+
+                <a href="#" class="category-card">
+                    <div class="category-avatar">
+                        <img src="./img/fish2.jpg" alt="آبزیان">
+                    </div>
+                    <span>آبزیان</span>
+                </a>
+
+                <a href="#" class="category-card">
+                    <div class="category-avatar">
+                        <img src="./img/rabbit.jpg" alt="جوندگان">
+                    </div>
+                    <span>جوندگان</span>
+                </a>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- خدمات ما -->
+    <section class="container my-section">
+        <div class="gradient-box">
+            <div class="section-title">
+                <h2>خدمات ویژه پت شاپ</h2>
+                <p>تضمین کیفیت و پشتیبانی کامل از لحظه سفارش تا تحویل</p>
+            </div>
+
+            <div class="services-grid">
+                
+                <div class="service-item">
+                    <div class="service-icon">
+                        <svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                        </svg>
+                    </div>
+                    <span>ارسال فوق سریع</span>
+                </div>
+
+                <div class="service-item">
+                    <div class="service-icon">
+                        <svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"/>
+                        </svg>
+                    </div>
+                    <span>پشتیبانی شبانه‌روزی</span>
+                </div>
+
+                <div class="service-item">
+                    <div class="service-icon">
+                        <svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                        </svg>
+                    </div>
+                    <span>ضمانت اصالت محصول</span>
+                </div>
+
+                <div class="service-item">
+                    <div class="service-icon">
+                        <svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/>
+                        </svg>
+                    </div>
+                    <span>پرداخت امن شتاب</span>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- محصولات پرفروش -->
+    <section class="container my-section">
+        <div class="gradient-box">
+            <div class="section-title">
+                <h2>🔥 محصولات برگزیده و پرفروش</h2>
+                <p>انتخاب شده توسط بیش از ۱۰ هزار سرپرست راضی</p>
+            </div>
+
+            <div class="products-grid">
+                
+                <div class="product-card">
+                    <div>
+                        <div class="product-img-box">
+                            <img src="./img/dog.jpg" alt="غذای خشک سگ">
+                            <span class="badge-tag">پرفروش</span>
+                        </div>
+                        <div class="product-info">
+                            <h3>غذای خشک سگ بالغ</h3>
+                            <p>برند رویال کنین - وزن ۲ کیلوگرم</p>
+                        </div>
+                    </div>
+                    <div class="product-footer">
+                        <span class="price-text">۲۵۹,۰۰۰ تومان</span>
+                        <button class="buy-btn">افزودن</button>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div>
+                        <div class="product-img-box">
+                            <img src="./img/cat.jpg" alt="کنسرو گربه">
+                        </div>
+                        <div class="product-info">
+                            <h3>کنسرو گوشت خالص گربه</h3>
+                            <p>سرشار از تائورین و ویتامین D</p>
+                        </div>
+                    </div>
+                    <div class="product-footer">
+                        <span class="price-text">۲۳۹,۰۰۰ تومان</span>
+                        <button class="buy-btn">افزودن</button>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div>
+                        <div class="product-img-box">
+                            <img src="./img/bird2.jpg" alt="دانه پرنده">
+                        </div>
+                        <div class="product-info">
+                            <h3>مخلوط پرندگان زینتی</h3>
+                            <p>بسته‌بندی زیپ‌کیپ ۱ کیلوگرمی</p>
+                        </div>
+                    </div>
+                    <div class="product-footer">
+                        <span class="price-text">۷۹,۰۰۰ تومان</span>
+                        <button class="buy-btn">افزودن</button>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div>
+                        <div class="product-img-box">
+                            <img src="./img/fish2.jpg" alt="غذای آبزیان">
+                        </div>
+                        <div class="product-info">
+                            <h3>گرانول تقویتی آبزیان</h3>
+                            <p>فرمول بدون ایجاد کدری در آب</p>
+                        </div>
+                    </div>
+                    <div class="product-footer">
+                        <span class="price-text">۴۵,۰۰۰ تومان</span>
+                        <button class="buy-btn">افزودن</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- بنر تبلیغاتی -->
+    <section class="container my-section">
+        <div class="promo-banner">
+            <img class="promo-banner-bg" src="./img/dog.jpg" alt="پس‌زمینه">
+            <div class="promo-content">
+                <span class="promo-tag">تخفیف ویژه این ماه</span>
+                <h2>سلامت و نشاط حیوان خانگی‌تان در اولویت است</h2>
+                <p>مجموعه‌ای کامل از برترین مکمل‌ها و مواد غذایی برندهای معتبر بین‌المللی با ضمانت بازگشت وجه.</p>
+                <a href="#" class="cta-btn">دیدن تمام محصولات</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- درباره ما -->
+    <section class="container my-section">
+        <div class="gradient-box">
+            <div class="about-wrapper">
+                <div class="about-text">
+                    <h2>درباره پت شاپ ما</h2>
+                    <p>
+                        ما در پت‌شاپ با هدف ارائه تخصصی‌ترین ملزومات و خوراک پت فعالیت می‌کنیم. هدف ما دسترسی آسان همه سرپرستان به محصولات اصل و دارای استاندارد جهانی با قیمت‌های منصفانه است.
+                    </p>
+                    <a href="#" class="login-btn">بیشتر بدانید</a>
+                </div>
+                <div class="about-avatar">
+                    <img src="./img/rabbit.jpg" alt="درباره ما">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- فوتر ریسپانسیو استاندارد -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-grid">
+                
+                <div class="footer-col">
+                    <h3>🐾 پت شاپ</h3>
+                    <p>
+                        تأمین‌کننده مستقیم بهترین و تازه‌ترین مواد غذایی و لوازم نگهداری حیوانات دلبند شما.
+                    </p>
+                </div>
+
+                <div class="footer-col">
+                    <h4>دسترسی سریع</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">صفحه اصلی</a></li>
+                        <li><a href="#">محصولات فروشگاه</a></li>
+                        <li><a href="#">وبلاگ آموزشی</a></li>
+                        <li><a href="#">قوانین و ضمانت بازگشت</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>اطلاعات تماس</h4>
+                    <ul class="footer-links">
+                        <li>تلفن: ۰۲۱-۱۲۳۴۵۶۷۸</li>
+                        <li>پشتیبانی: ۰۹۱۲۰۰۰۰۰۰۰</li>
+                        <li>ایمیل: info@petshop.com</li>
+                        <li>آدرس: تهران، خیابان ولیعصر</li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>خبرنامه</h4>
+                    <p>برای دریافت کوپن‌های تخفیف ایمیل خود را ثبت کنید:</p>
+                    <form class="newsletter-form" onsubmit="event.preventDefault();">
+                        <input type="email" placeholder="ایمیل خود را بنویسید..." class="newsletter-input" required>
+                        <button type="submit" class="newsletter-btn">عضویت</button>
+                    </form>
+                </div>
+
+            </div>
+
+            <div class="footer-bottom">
+                تمامی حقوق محفوظ است © ۲۰۲۶ پت شاپ
+            </div>
+        </div>
+    </footer>
+
+    <!-- جاوااسکریپت کنترل منو و اسلایدر سه‌بعدی -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // هندلینگ منوی موبایل
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const mobileDrawer = document.getElementById('mobileDrawer');
+            const drawerOverlay = document.getElementById('drawerOverlay');
+            const closeDrawerBtn = document.getElementById('closeDrawerBtn');
+
+            function toggleDrawer(isOpen) {
+                if (isOpen) {
+                    mobileDrawer.classList.add('open');
+                    document.body.style.overflow = 'hidden';
+                } else {
+                    mobileDrawer.classList.remove('open');
+                    document.body.style.overflow = '';
+                }
+            }
+
+            if (mobileMenuBtn) mobileMenuBtn.addEventListener('click', () => toggleDrawer(true));
+            if (closeDrawerBtn) closeDrawerBtn.addEventListener('click', () => toggleDrawer(false));
+            if (drawerOverlay) drawerOverlay.addEventListener('click', () => toggleDrawer(false));
+
+            // کنترلر اسلایدر سه‌بعدی
+            const slides = [
+                { slide: document.getElementById('slide1'), bg: document.getElementById('bg1') },
+                { slide: document.getElementById('slide2'), bg: document.getElementById('bg2') },
+                { slide: document.getElementById('slide3'), bg: document.getElementById('bg3') }
+            ];
+
+            let activeIdx = 0;
+            const total = slides.length;
+
+            function refreshSlider() {
+                slides.forEach((item, index) => {
+                    if (!item.slide) return;
+                    item.slide.removeAttribute('data-current');
+                    item.slide.removeAttribute('data-next');
+                    item.slide.removeAttribute('data-previous');
+
+                    if (item.bg) {
+                        item.bg.removeAttribute('data-current');
+                    }
+
+                    if (index === activeIdx) {
+                        item.slide.setAttribute('data-current', '');
+                        if (item.bg) item.bg.setAttribute('data-current', '');
+                    } else if (index === (activeIdx + 1) % total) {
+                        item.slide.setAttribute('data-next', '');
+                    } else {
+                        item.slide.setAttribute('data-previous', '');
+                    }
+                });
+            }
+
+            const nextBtn = document.getElementById('nextBtn');
+            const prevBtn = document.getElementById('prevBtn');
+
+            if (nextBtn) {
+                nextBtn.addEventListener('click', () => {
+                    activeIdx = (activeIdx + 1) % total;
+                    refreshSlider();
+                });
+            }
+
+            if (prevBtn) {
+                prevBtn.addEventListener('click', () => {
+                    activeIdx = (activeIdx - 1 + total) % total;
+                    refreshSlider();
+                });
+            }
+        });
+    </script>
 </body>
 </html>
